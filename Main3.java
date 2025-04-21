@@ -16,28 +16,17 @@ public class Main3 {
     /**
      * @param args the command line arguments
      */
-    public static void main(String[] args) {
-       ListaPersonas l= new ListaPersonas();
-       System.out.println("1: Ingresar prestador");
-       System.out.println("2: Eliminar prestador");
-       System.out.println("3: Mostrar lista");
-       Scanner input = new Scanner(System.in);
-        int opcion = input.nextInt();
-        input.nextLine();
-        switch(opcion){
-            case 1:
-       System.out.println("Ingrese el nombre y apellido");
+    public static Persona ingdatos(){
+  Scanner input = new Scanner(System.in);
+         System.out.println("Ingrese el nombre y apellido");
 	String nombre=new String();
         nombre=input.nextLine();
-       System.out.println("Nombre:"+nombre); 
        System.out.println("Ingrese el DNI");
        String dni=new String();
        dni=input.nextLine();
-        System.out.println("DNI: "+dni);
        System.out.println("Ingrese la direccion");
        String dir=new String();
        dir=input.nextLine();
-        System.out.println("Direccion: "+dir);
         System.out.println("Ingrese la fecha de nacimiento (dia, mes, año)");
         int fnac[]= new int[3];
         fnac[0]=input.nextInt();
@@ -62,7 +51,7 @@ public class Main3 {
        input.nextLine();
        fing[2]=input.nextInt();
        input.nextLine();
-             
+             Persona p=new Persona();
          System.out.println("¿Que tipo de persona desea ingresar? 1: Docente, 2: Alumno, 3: Alumno Postgrado");
          int op2=input.nextInt();
          input.nextLine();
@@ -80,15 +69,51 @@ public class Main3 {
                      aux=input.nextLine();
                      materias.add(aux);
                  }
-                     //public Docente(String N, String D, String Dir, int FN[], String f, String c, int i[], String cargo, ArrayList<String> m){
-                   //  Docente docente =new Docente(nombre, dni, dir, fnac, facultad, carrera, fing, cargo, materias);
-                     Persona per= new Docente(nombre, dni, dir, fnac, facultad, carrera, fing, cargo, materias);
-                     l.insert(per);    
-         }
-            case 3: l.muestroEstruc();
-            
+                     p= new Docente(nombre, dni, dir, fnac, facultad, carrera, fing, cargo, materias); 
+                     break;
+             case 2: String registro= new String();
+             System.out.println("Ingrese el numero de registro");
+             registro=input.nextLine();
+             p= new Alumno(nombre, dni, dir, fnac, facultad, carrera, fing, registro);
+             break;
+            case 3: 
+                System.out.println("Ingrese el numero de registro");
+             registro=input.nextLine();
+             String carrerap=new String();
+             System.out.println("Ingrese la carrera postgrado");
+             carrerap=input.nextLine();
+             p= new AlumnoPostGrado(nombre, dni, dir, fnac, facultad, carrera, fing, registro, carrerap);
+             break;
+        }
+         return p;
     }
-       }
-    
-    }
-    
+    public static void main(String[] args) {
+       ListaPersonas l= new ListaPersonas();
+       Persona p=new Persona();
+       int opcion;
+       do{
+       System.out.println("1: Ingresar persona");
+       System.out.println("2: Eliminar persona");
+       System.out.println("3: Mostrar lista");
+       Scanner input = new Scanner(System.in);
+        opcion = input.nextInt();
+        input.nextLine();
+        
+            switch(opcion){
+                case 1: 
+                l.insert(ingdatos()); 
+                break;
+                case 2: 
+                if (l.inStruc(ingdatos())==true){
+                    l.supress();
+                }
+                else {
+                    System.out.println("La persona que ingresó no se encuentra en la lista.");
+                }
+                break;
+                case 3: l.muestroEstruc();
+                break;
+           } 
+       }while(opcion!=4);
+}
+}
